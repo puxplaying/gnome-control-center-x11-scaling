@@ -1,7 +1,7 @@
 # gnome-control-center-x11-scaling
-gnome-control-center build with Ubuntu patch for Xorg fractional scaling on Manjaro / Arch Linux 
+gnome-control-center build with Ubuntu patches for Xorg fractional scaling on Manjaro / Arch Linux 
 
-All Credits belong to Arch Linux and Ubuntu
+All Credits belong to [Arch Linux](https://www.archlinux.org/packages/extra/x86_64/gnome-control-center/) and [Ubuntu](https://salsa.debian.org/gnome-team/gnome-control-center/-/tree/ubuntu/master/debian/patches)
 
 ---
 
