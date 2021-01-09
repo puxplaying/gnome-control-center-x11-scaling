@@ -10,7 +10,7 @@
 
 pkgbase=gnome-control-center
 pkgname=$pkgbase-x11-scaling
-pkgver=3.38.2
+pkgver=3.38.3
 pkgrel=1
 pkgdesc="GNOME's main interface to configure various aspects of the desktop"
 url="https://gitlab.gnome.org/GNOME/gnome-control-center"
@@ -31,7 +31,7 @@ optdepends=('system-config-printer: Printer settings'
             'rygel: media sharing'
             'openssh: remote login')
 groups=(gnome)
-_commit=0ae321b67d1c31d9bc209807aa6103d01a95e726  # tags/3.38.2^0
+_commit=681ce6c7f6b2a84a3615fcd9e1c0c74673714fb4  # tags/3.38.3^0
 source=("git+https://gitlab.gnome.org/GNOME/gnome-control-center.git#commit=$_commit"
         "git+https://gitlab.gnome.org/GNOME/libgnome-volume-control.git"
         "0019-display-Support-UI-scaled-logical-monitor-mode.patch::https://salsa.debian.org/gnome-team/gnome-control-center/-/raw/ubuntu/master/debian/patches/0019-display-Support-UI-scaled-logical-monitor-mode.patch"
