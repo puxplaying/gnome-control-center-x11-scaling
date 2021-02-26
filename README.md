@@ -16,4 +16,4 @@ makepkg -srci
 
 ---
 
-![alt text](https://github.com/puxplaying/gnome-control-center-x11-scaling/blob/main/123.png)
+![alt text](https://github.com/puxplaying/mutter-x11-scaling/blob/master/123.png)
