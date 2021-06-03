@@ -10,7 +10,7 @@
 
 pkgbase=gnome-control-center
 pkgname=$pkgbase-x11-scaling
-pkgver=3.38.5
+pkgver=40.0
 pkgrel=1
 pkgdesc="GNOME's main interface to configure various aspects of the desktop"
 url="https://gitlab.gnome.org/GNOME/gnome-control-center"
@@ -31,7 +31,7 @@ optdepends=('system-config-printer: Printer settings'
             'rygel: media sharing'
             'openssh: remote login')
 groups=(gnome)
-_commit=b6f94853bc99834d3b6091a4ae88c798e852789a  # tags/3.38.5^0
+_commit=49d71c07b5b3ce59e035b785310cba4fcf903868  # tags/40.0^0
 source=("git+https://gitlab.gnome.org/GNOME/gnome-control-center.git#commit=$_commit"
         "git+https://gitlab.gnome.org/GNOME/libgnome-volume-control.git"
         "0019-display-Support-UI-scaled-logical-monitor-mode.patch::https://salsa.debian.org/gnome-team/gnome-control-center/-/raw/ubuntu/master/debian/patches/0019-display-Support-UI-scaled-logical-monitor-mode.patch"
@@ -71,4 +71,3 @@ package() {
   DESTDIR="$pkgdir" meson install -C build
   install -d -o root -g 102 -m 750 "$pkgdir/usr/share/polkit-1/rules.d"
 }
-
