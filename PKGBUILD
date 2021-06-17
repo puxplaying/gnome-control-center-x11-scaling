@@ -1,4 +1,4 @@
-# Maintainer: puxplaying (Georg Wagner) <puxplaying@gmail.com>
+# Maintainer: Georg Wagner <puxplaying_at_gmail_dot_com>
 
 # Archlinux credits:
 # Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
@@ -11,7 +11,7 @@
 pkgbase=gnome-control-center
 pkgname=$pkgbase-x11-scaling
 pkgver=40.0
-pkgrel=1
+pkgrel=2
 pkgdesc="GNOME's main interface to configure various aspects of the desktop"
 url="https://gitlab.gnome.org/GNOME/gnome-control-center"
 license=(GPL2)
@@ -34,12 +34,12 @@ groups=(gnome)
 _commit=49d71c07b5b3ce59e035b785310cba4fcf903868  # tags/40.0^0
 source=("git+https://gitlab.gnome.org/GNOME/gnome-control-center.git#commit=$_commit"
         "git+https://gitlab.gnome.org/GNOME/libgnome-volume-control.git"
-        "0019-display-Support-UI-scaled-logical-monitor-mode.patch::https://salsa.debian.org/gnome-team/gnome-control-center/-/raw/ubuntu/master/debian/patches/0019-display-Support-UI-scaled-logical-monitor-mode.patch"
-        "0024-display-Allow-fractional-scaling-to-be-enabled.patch::https://salsa.debian.org/gnome-team/gnome-control-center/-/raw/ubuntu/master/debian/patches/0024-display-Allow-fractional-scaling-to-be-enabled.patch")
+        "https://salsa.debian.org/gnome-team/gnome-control-center/-/raw/ubuntu/master/debian/patches/ubuntu/display-Support-UI-scaled-logical-monitor-mode.patch"
+        "https://salsa.debian.org/gnome-team/gnome-control-center/-/raw/ubuntu/master/debian/patches/ubuntu/display-Allow-fractional-scaling-to-be-enabled.patch")
 sha256sums=('SKIP'
             'SKIP'
-            '29be1d77bfc84b8cdea72df222b0ad1ce65a1452cdab7bec240cda7769ca05f5'
-            '5eeba3e2a6b88570dd106bf6b6a9d450b1a6c5484e525deca34990a0ca3bd3c5')
+            'a048a64afe1f258c64f22d170f494149dcdaeedfbfc8a39309c16acfa803951f'
+            'a4ef01458df90b84d1bca34992a8317339d327cd7aebe9fdddbf9a88aa04517c')
 
 pkgver() {
   cd $pkgbase
@@ -53,8 +53,8 @@ prepare() {
   git submodule update
   
   # Ubuntu Patches for X11 fractional scaling
-  patch -p1 -i "${srcdir}/0019-display-Support-UI-scaled-logical-monitor-mode.patch"
-  patch -p1 -i "${srcdir}/0024-display-Allow-fractional-scaling-to-be-enabled.patch"
+  patch -p1 -i "${srcdir}/display-Support-UI-scaled-logical-monitor-mode.patch"
+  patch -p1 -i "${srcdir}/display-Allow-fractional-scaling-to-be-enabled.patch"
 }
 
 
