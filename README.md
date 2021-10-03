@@ -16,4 +16,4 @@ makepkg -srci
 
 ---
 
-![alt text](https://github.com/puxplaying/mutter-x11-scaling/blob/master/123.png)
+![1](https://user-images.githubusercontent.com/28549766/135753045-1296531d-8d06-45f3-af10-f8b8cdbee720.png)
