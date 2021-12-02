@@ -11,7 +11,7 @@
 pkgname=gnome-control-center-x11-scaling
 _pkgname=gnome-control-center
 pkgver=41.1
-pkgrel=1
+pkgrel=2
 pkgdesc="GNOME's main interface to configure various aspects of the desktop with X11 fractional scaling patch"
 url="https://gitlab.gnome.org/GNOME/gnome-control-center"
 license=(GPL2)
@@ -30,6 +30,7 @@ optdepends=('system-config-printer: Printer settings'
             'gnome-remote-desktop: screen sharing'
             'rygel: media sharing'
             'openssh: remote login')
+groups=(gnome)
 _commit=eb053617651d251d29128525eb18592a2283d0cf  # tags/41.1^0
 source=("git+https://gitlab.gnome.org/GNOME/gnome-control-center.git#commit=$_commit"
         "git+https://gitlab.gnome.org/GNOME/libgnome-volume-control.git"
@@ -45,6 +46,10 @@ pkgver() {
 
 prepare() {
   cd $_pkgname
+
+  # Install bare logos into pixmaps, not icons
+  sed -i "/install_dir/s/'icons'/'pixmaps'/" panels/info-overview/meson.build
+
   git submodule init
   git submodule set-url subprojects/gvc "$srcdir/libgnome-volume-control"
   git submodule update
