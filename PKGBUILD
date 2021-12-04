@@ -10,8 +10,8 @@
 
 pkgname=gnome-control-center-x11-scaling
 _pkgname=gnome-control-center
-pkgver=41.1
-pkgrel=2
+pkgver=41.2
+pkgrel=1
 pkgdesc="GNOME's main interface to configure various aspects of the desktop with X11 fractional scaling patch"
 url="https://gitlab.gnome.org/GNOME/gnome-control-center"
 license=(GPL2)
@@ -31,7 +31,7 @@ optdepends=('system-config-printer: Printer settings'
             'rygel: media sharing'
             'openssh: remote login')
 groups=(gnome)
-_commit=eb053617651d251d29128525eb18592a2283d0cf  # tags/41.1^0
+_commit=babeb0ce357d55406b0ba0a4597e0513a0419de8  # tags/41.2^0
 source=("git+https://gitlab.gnome.org/GNOME/gnome-control-center.git#commit=$_commit"
         "git+https://gitlab.gnome.org/GNOME/libgnome-volume-control.git"
         "fractional-scaling.patch")
@@ -41,7 +41,7 @@ sha256sums=('SKIP'
 
 pkgver() {
   cd $_pkgname
-  git describe --tags | sed 's/^GNOME_CONTROL_CENTER_//;s/_/./g;s/-/+/g'
+  git describe --tags | sed 's/^GNOME_CONTROL_CENTER_//;s/_/./g;s/[^-]*-g/r&/;s/-/+/g'
 }
 
 prepare() {
