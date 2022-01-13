@@ -11,7 +11,7 @@
 pkgname=gnome-control-center-x11-scaling
 _pkgname=gnome-control-center
 pkgver=41.2
-pkgrel=1
+pkgrel=2
 pkgdesc="GNOME's main interface to configure various aspects of the desktop with X11 fractional scaling patch"
 url="https://gitlab.gnome.org/GNOME/gnome-control-center"
 license=(GPL2)
@@ -20,7 +20,7 @@ depends=(accountsservice cups-pk-helper gnome-bluetooth gnome-desktop
          gnome-online-accounts gnome-settings-daemon gsettings-desktop-schemas gtk3
          libgtop nm-connection-editor sound-theme-freedesktop upower libpwquality
          gnome-color-manager smbclient libmm-glib libgnomekbd libibus libcheese
-         libgudev bolt udisks2 libhandy gsound colord-gtk power-profiles-daemon)
+         libgudev bolt udisks2 libhandy gsound colord-gtk)
 makedepends=(docbook-xsl modemmanager git python meson)
 checkdepends=(python-dbusmock python-gobject xorg-server-xvfb)
 conflicts=($_pkgname)
@@ -29,7 +29,8 @@ optdepends=('system-config-printer: Printer settings'
             'gnome-user-share: WebDAV file sharing'
             'gnome-remote-desktop: screen sharing'
             'rygel: media sharing'
-            'openssh: remote login')
+            'openssh: remote login'
+            'power-profiles-daemon: Power profiles support')
 groups=(gnome)
 _commit=babeb0ce357d55406b0ba0a4597e0513a0419de8  # tags/41.2^0
 source=("git+https://gitlab.gnome.org/GNOME/gnome-control-center.git#commit=$_commit"
@@ -47,10 +48,16 @@ pkgver() {
 prepare() {
   cd $_pkgname
 
+  # Fix build with Meson 0.61.0
+  git cherry-pick -n 37b29c32cbecfd89c9c5e0169e0f2876f00ef5eb
+
+  # https://gitlab.gnome.org/GNOME/gnome-control-center/-/issues/1562
+  git cherry-pick -n 293e191e399123c91ef5d7b5c796ea0f42b8bd91
+
   # Install bare logos into pixmaps, not icons
   sed -i "/install_dir/s/'icons'/'pixmaps'/" panels/info-overview/meson.build
 
-  git submodule init
+  git submodule init subprojects/gvc
   git submodule set-url subprojects/gvc "$srcdir/libgnome-volume-control"
   git submodule update
 
