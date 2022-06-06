@@ -4,7 +4,7 @@ gnome-control-center build with Ubuntu patches for Xorg fractional scaling on Ma
 
 This package requires [mutter-x11-scaling](https://github.com/puxplaying/mutter-x11-scaling) to work.
 
-Applied patches are for proper multi-monitor management and a toggle option to enable/disable fractional scaling. [[1]](https://salsa.debian.org/gnome-team/gnome-control-center/-/blob/ubuntu/master/debian/patches/ubuntu/display-Support-UI-scaled-logical-monitor-mode.patch) [[2]](https://salsa.debian.org/gnome-team/gnome-control-center/-/blob/ubuntu/master/debian/patches/ubuntu/display-Allow-fractional-scaling-to-be-enabled.patch)
+Applied patches are for proper multi-monitor management and a toggle to enable/disable fractional scaling. [[1]](https://salsa.debian.org/gnome-team/gnome-control-center/-/blob/ubuntu/master/debian/patches/ubuntu/display-Support-UI-scaled-logical-monitor-mode.patch) [[2]](https://salsa.debian.org/gnome-team/gnome-control-center/-/blob/ubuntu/master/debian/patches/ubuntu/display-Allow-fractional-scaling-to-be-enabled.patch)
 
 All Credits belong to [Arch Linux](https://www.archlinux.org/packages/extra/x86_64/gnome-control-center/) and [Ubuntu](https://salsa.debian.org/gnome-team/gnome-control-center/-/tree/ubuntu/master/debian/patches)
 
