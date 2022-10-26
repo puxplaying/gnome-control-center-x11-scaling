@@ -10,7 +10,7 @@
 
 pkgname=gnome-control-center-x11-scaling
 _pkgname=gnome-control-center
-pkgver=42.2
+pkgver=43.1
 pkgrel=1
 pkgdesc="GNOME's main interface to configure various aspects of the desktop with X11 fractional scaling patch"
 url="https://gitlab.gnome.org/GNOME/gnome-control-center"
@@ -32,14 +32,14 @@ optdepends=('system-config-printer: Printer settings'
             'openssh: remote login'
             'power-profiles-daemon: Power profiles support')
 groups=(gnome)
-_commit=0bbcc3b8b30583908be7ec129b63bb40d8697b7b  # tags/42.2^0
+_commit=cdcdee471b7d452dd5449565af3b36fb95155e99  # tags/43.1^0
 source=("git+https://gitlab.gnome.org/GNOME/gnome-control-center.git#commit=$_commit"
         "git+https://gitlab.gnome.org/GNOME/libgnome-volume-control.git"
-        "display-Allow-fractional-scaling-to-be-enabled.patch::https://salsa.debian.org/gnome-team/gnome-control-center/-/raw/42b777253d328c5034fa6182288a555e6be5486a/debian/patches/ubuntu/display-Allow-fractional-scaling-to-be-enabled.patch"
-        "display-Support-UI-scaled-logical-monitor-mode.patch::https://salsa.debian.org/gnome-team/gnome-control-center/-/raw/42b777253d328c5034fa6182288a555e6be5486a/debian/patches/ubuntu/display-Support-UI-scaled-logical-monitor-mode.patch")
+        "display-Allow-fractional-scaling-to-be-enabled.patch::https://salsa.debian.org/gnome-team/gnome-control-center/-/raw/055a7c0cb66a8de56e2ec6564f2cf9f3f61e705b/debian/patches/ubuntu/display-Allow-fractional-scaling-to-be-enabled.patch"
+        "display-Support-UI-scaled-logical-monitor-mode.patch::https://salsa.debian.org/gnome-team/gnome-control-center/-/raw/055a7c0cb66a8de56e2ec6564f2cf9f3f61e705b/debian/patches/ubuntu/display-Support-UI-scaled-logical-monitor-mode.patch")
 sha256sums=('SKIP'
             'SKIP'
-            '62ee5ff981e1648f85a9891cdb7efa80c216e33d67692514483e0cccfe0935ac'
+            '354e9d6fa7d4caa560d348a1c75337a09d80f1434f4ddf3f693d4ce2a3408163'
             'fe7868d62177643d0d493ec121bb6cc15c0cbe7a4058ac097546a245c4344b5d')
 
 pkgver() {
