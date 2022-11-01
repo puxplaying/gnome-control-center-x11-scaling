@@ -11,7 +11,7 @@
 pkgname=gnome-control-center-x11-scaling
 _pkgname=gnome-control-center
 pkgver=43.1
-pkgrel=1
+pkgrel=2
 pkgdesc="GNOME's main interface to configure various aspects of the desktop with X11 fractional scaling patch"
 url="https://gitlab.gnome.org/GNOME/gnome-control-center"
 license=(GPL2)
@@ -30,17 +30,20 @@ optdepends=('system-config-printer: Printer settings'
             'gnome-remote-desktop: screen sharing'
             'rygel: media sharing'
             'openssh: remote login'
-            'power-profiles-daemon: Power profiles support')
+            'power-profiles-daemon: Power profiles support'
+            'malcontent: application permission control')
 groups=(gnome)
 _commit=cdcdee471b7d452dd5449565af3b36fb95155e99  # tags/43.1^0
 source=("git+https://gitlab.gnome.org/GNOME/gnome-control-center.git#commit=$_commit"
         "git+https://gitlab.gnome.org/GNOME/libgnome-volume-control.git"
         "display-Allow-fractional-scaling-to-be-enabled.patch::https://salsa.debian.org/gnome-team/gnome-control-center/-/raw/055a7c0cb66a8de56e2ec6564f2cf9f3f61e705b/debian/patches/ubuntu/display-Allow-fractional-scaling-to-be-enabled.patch"
-        "display-Support-UI-scaled-logical-monitor-mode.patch::https://salsa.debian.org/gnome-team/gnome-control-center/-/raw/055a7c0cb66a8de56e2ec6564f2cf9f3f61e705b/debian/patches/ubuntu/display-Support-UI-scaled-logical-monitor-mode.patch")
+        "display-Support-UI-scaled-logical-monitor-mode.patch::https://salsa.debian.org/gnome-team/gnome-control-center/-/raw/055a7c0cb66a8de56e2ec6564f2cf9f3f61e705b/debian/patches/ubuntu/display-Support-UI-scaled-logical-monitor-mode.patch"
+  	pixmaps-dir.diff)
 sha256sums=('SKIP'
             'SKIP'
             '354e9d6fa7d4caa560d348a1c75337a09d80f1434f4ddf3f693d4ce2a3408163'
-            'fe7868d62177643d0d493ec121bb6cc15c0cbe7a4058ac097546a245c4344b5d')
+            'fe7868d62177643d0d493ec121bb6cc15c0cbe7a4058ac097546a245c4344b5d'
+            '4c6205010376fdaafdd672c7fc6a1eea3beaa19d18fbccb3fdba2d2ca24aed7d')
 
 pkgver() {
   cd $_pkgname
@@ -51,11 +54,11 @@ prepare() {
   cd $_pkgname
 
   # Install bare logos into pixmaps, not icons
-  sed -i "/install_dir/s/'icons'/'pixmaps'/" panels/info-overview/meson.build
+  git apply -3 ../pixmaps-dir.diff
 
   git submodule init subprojects/gvc
   git submodule set-url subprojects/gvc "$srcdir/libgnome-volume-control"
-  git submodule update
+  git -c protocol.file.allow=always submodule update
 
   # Support UI scaled logical monitor mode (Marco Trevisan, Robert Ancell)
   patch -p1 -i "${srcdir}/display-Support-UI-scaled-logical-monitor-mode.patch"
