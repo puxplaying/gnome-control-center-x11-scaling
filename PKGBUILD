@@ -10,11 +10,11 @@
 
 pkgname=gnome-control-center-x11-scaling
 _pkgname=gnome-control-center
-pkgver=43.1
-pkgrel=2
+pkgver=43.2
+pkgrel=1
 pkgdesc="GNOME's main interface to configure various aspects of the desktop with X11 fractional scaling patch"
 url="https://gitlab.gnome.org/GNOME/gnome-control-center"
-license=(GPL2)
+license=(GPL3)
 arch=(x86_64)
 depends=(accountsservice cups-pk-helper gnome-bluetooth-3.0 gnome-desktop-4
          gnome-online-accounts gnome-settings-daemon gsettings-desktop-schemas
@@ -33,7 +33,7 @@ optdepends=('system-config-printer: Printer settings'
             'power-profiles-daemon: Power profiles support'
             'malcontent: application permission control')
 groups=(gnome)
-_commit=cdcdee471b7d452dd5449565af3b36fb95155e99  # tags/43.1^0
+_commit=ec6ea052669784800846a1429dbaf3137a4b87dd  # tags/43.2^0
 source=("git+https://gitlab.gnome.org/GNOME/gnome-control-center.git#commit=$_commit"
         "git+https://gitlab.gnome.org/GNOME/libgnome-volume-control.git"
         "display-Allow-fractional-scaling-to-be-enabled.patch::https://salsa.debian.org/gnome-team/gnome-control-center/-/raw/055a7c0cb66a8de56e2ec6564f2cf9f3f61e705b/debian/patches/ubuntu/display-Allow-fractional-scaling-to-be-enabled.patch"
@@ -76,7 +76,7 @@ build() {
 }
 
 check() {
-  meson test -C build --print-errorlogs
+  GTK_A11Y=none meson test -C build --print-errorlogs
 }
 
 package() {
