@@ -10,7 +10,7 @@
 
 pkgname=gnome-control-center-x11-scaling
 _pkgname=gnome-control-center
-pkgver=43.2
+pkgver=43.4.1
 pkgrel=1
 pkgdesc="GNOME's main interface to configure various aspects of the desktop with X11 fractional scaling patch"
 url="https://gitlab.gnome.org/GNOME/gnome-control-center"
@@ -33,16 +33,18 @@ optdepends=('system-config-printer: Printer settings'
             'power-profiles-daemon: Power profiles support'
             'malcontent: application permission control')
 groups=(gnome)
-_commit=ec6ea052669784800846a1429dbaf3137a4b87dd  # tags/43.2^0
-source=("git+https://gitlab.gnome.org/GNOME/gnome-control-center.git#commit=$_commit"
-        "git+https://gitlab.gnome.org/GNOME/libgnome-volume-control.git"
-        "display-Allow-fractional-scaling-to-be-enabled.patch::https://salsa.debian.org/gnome-team/gnome-control-center/-/raw/055a7c0cb66a8de56e2ec6564f2cf9f3f61e705b/debian/patches/ubuntu/display-Allow-fractional-scaling-to-be-enabled.patch"
-        "display-Support-UI-scaled-logical-monitor-mode.patch::https://salsa.debian.org/gnome-team/gnome-control-center/-/raw/055a7c0cb66a8de56e2ec6564f2cf9f3f61e705b/debian/patches/ubuntu/display-Support-UI-scaled-logical-monitor-mode.patch"
-  	pixmaps-dir.diff)
+_commit=5aa7d28b00da4a24a6977b4e3c92096ee5ac096d  # tags/43.4.1^0
+source=(
+  "git+https://gitlab.gnome.org/GNOME/gnome-control-center.git#commit=$_commit"
+  "git+https://gitlab.gnome.org/GNOME/libgnome-volume-control.git"
+  "display-Allow-fractional-scaling-to-be-enabled.patch::https://salsa.debian.org/gnome-team/gnome-control-center/-/raw/40a04c330a95e178463371bf8570d8e6258dd906/debian/patches/ubuntu/display-Allow-fractional-scaling-to-be-enabled.patch"
+  "display-Support-UI-scaled-logical-monitor-mode.patch::https://salsa.debian.org/gnome-team/gnome-control-center/-/raw/40a04c330a95e178463371bf8570d8e6258dd906/debian/patches/ubuntu/display-Support-UI-scaled-logical-monitor-mode.patch"
+  pixmaps-dir.diff
+)
 sha256sums=('SKIP'
             'SKIP'
-            '354e9d6fa7d4caa560d348a1c75337a09d80f1434f4ddf3f693d4ce2a3408163'
-            'fe7868d62177643d0d493ec121bb6cc15c0cbe7a4058ac097546a245c4344b5d'
+            '5d482fc88294bd03fb99060111dc8f93629c52d4fa5b9ffbf78e125d105adeff'
+            '0afe763b4faa2f6cc2b7792fa2384682c8cf47a3ace1aab8f173cceca6eebfa6'
             '4c6205010376fdaafdd672c7fc6a1eea3beaa19d18fbccb3fdba2d2ca24aed7d')
 
 pkgver() {
