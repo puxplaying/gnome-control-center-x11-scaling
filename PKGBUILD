@@ -1,6 +1,8 @@
 # Maintainer: Georg Wagner <puxplaying_at_gmail_dot_com>
+# Contributor: Mark Wagie <mark@manjaro.org>
+# Contributor: realqhc <https://github.com/realqhc>
 
-# Archlinux credits:
+# Arch credits:
 # Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 # Contributor: Jan de Groot <jgc@archlinux.org>
 
@@ -11,7 +13,7 @@
 pkgname=gnome-control-center-x11-scaling
 _pkgname=gnome-control-center
 pkgver=43.4.1
-pkgrel=2
+pkgrel=3
 pkgdesc="GNOME's main interface to configure various aspects of the desktop with X11 fractional scaling patch"
 url="https://gitlab.gnome.org/GNOME/gnome-control-center"
 license=(GPL3)
@@ -90,6 +92,10 @@ pkgver() {
 
 prepare() {
   cd $_pkgname
+
+  # Fixes to Users panel
+  git cherry-pick -n d1e64d0f13629bf08da0ae9fab11c97209ec6729 \
+                     8a98497fb0eb8bc1f4447c14830b5757de4e1d3b
 
   # Install bare logos into pixmaps, not icons
   git apply -3 ../pixmaps-dir.diff
