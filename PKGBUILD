@@ -12,8 +12,8 @@
 
 pkgname=gnome-control-center-x11-scaling
 _pkgname=gnome-control-center
-pkgver=43.4.1
-pkgrel=3
+pkgver=44.1
+pkgrel=2
 pkgdesc="GNOME's main interface to configure various aspects of the desktop with X11 fractional scaling patch"
 url="https://gitlab.gnome.org/GNOME/gnome-control-center"
 license=(GPL3)
@@ -29,6 +29,7 @@ depends=(
   gnome-desktop-4
   gnome-online-accounts
   gnome-settings-daemon
+  gnome-shell
   gsettings-desktop-schemas
   gsound
   gtk4
@@ -63,6 +64,7 @@ optdepends=(
   'gnome-remote-desktop: screen sharing'
   'gnome-user-share: WebDAV file sharing'
   'malcontent: application permission control'
+  'networkmanager: network settings'
   'openssh: remote login'
   'power-profiles-daemon: power profiles'
   'rygel: media sharing'
@@ -71,19 +73,19 @@ optdepends=(
 groups=(gnome)
 conflicts=($_pkgname)
 provides=($_pkgname)
-_commit=5aa7d28b00da4a24a6977b4e3c92096ee5ac096d  # tags/43.4.1^0
+_commit=da661203820d5766ff10fd7f64d2117470c70a2a  # tags/44.1^0
 source=(
   "git+https://gitlab.gnome.org/GNOME/gnome-control-center.git#commit=$_commit"
   "git+https://gitlab.gnome.org/GNOME/libgnome-volume-control.git"
-  "display-Allow-fractional-scaling-to-be-enabled.patch::https://salsa.debian.org/gnome-team/gnome-control-center/-/raw/40a04c330a95e178463371bf8570d8e6258dd906/debian/patches/ubuntu/display-Allow-fractional-scaling-to-be-enabled.patch"
+  "display-Allow-fractional-scaling-to-be-enabled.patch::https://salsa.debian.org/gnome-team/gnome-control-center/-/raw/7da15e2567e77e1a589dc3135de2b4af119ecdde/debian/patches/ubuntu/display-Allow-fractional-scaling-to-be-enabled.patch"
   "display-Support-UI-scaled-logical-monitor-mode.patch::https://salsa.debian.org/gnome-team/gnome-control-center/-/raw/40a04c330a95e178463371bf8570d8e6258dd906/debian/patches/ubuntu/display-Support-UI-scaled-logical-monitor-mode.patch"
   pixmaps-dir.diff
 )
 sha256sums=('SKIP'
             'SKIP'
-            '5d482fc88294bd03fb99060111dc8f93629c52d4fa5b9ffbf78e125d105adeff'
+            'f3c38a57880818101fe0fb05fbadea584ebd894df522984ec73810a244bb7043'
             '0afe763b4faa2f6cc2b7792fa2384682c8cf47a3ace1aab8f173cceca6eebfa6'
-            '4c6205010376fdaafdd672c7fc6a1eea3beaa19d18fbccb3fdba2d2ca24aed7d')
+            '6bee0ae03cc8cf47f550f854cdd675117390a8603b03b7c13377b0588fcf5ac4')
 
 pkgver() {
   cd $_pkgname
@@ -92,10 +94,6 @@ pkgver() {
 
 prepare() {
   cd $_pkgname
-
-  # Fixes to Users panel
-  git cherry-pick -n d1e64d0f13629bf08da0ae9fab11c97209ec6729 \
-                     8a98497fb0eb8bc1f4447c14830b5757de4e1d3b
 
   # Install bare logos into pixmaps, not icons
   git apply -3 ../pixmaps-dir.diff
