@@ -13,7 +13,7 @@
 pkgname=gnome-control-center-x11-scaling
 _pkgname=gnome-control-center
 pkgver=44.1
-pkgrel=2
+pkgrel=3
 pkgdesc="GNOME's main interface to configure various aspects of the desktop with X11 fractional scaling patch"
 url="https://gitlab.gnome.org/GNOME/gnome-control-center"
 license=(GPL3)
@@ -85,7 +85,7 @@ sha256sums=('SKIP'
             'SKIP'
             'f3c38a57880818101fe0fb05fbadea584ebd894df522984ec73810a244bb7043'
             '0afe763b4faa2f6cc2b7792fa2384682c8cf47a3ace1aab8f173cceca6eebfa6'
-            '6bee0ae03cc8cf47f550f854cdd675117390a8603b03b7c13377b0588fcf5ac4')
+            '8695bc08c06026b7bfdd43941b4e07bb3ffbaa4e709be0b23ee138d24b6dbc8f')
 
 pkgver() {
   cd $_pkgname
