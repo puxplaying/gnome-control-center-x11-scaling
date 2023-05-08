@@ -6,7 +6,7 @@ This package requires [mutter-x11-scaling](https://github.com/puxplaying/mutter-
 
 Applied patches are for proper multi-monitor management and a toggle to enable/disable fractional scaling. [[1]](https://salsa.debian.org/gnome-team/gnome-control-center/-/blob/ubuntu/master/debian/patches/ubuntu/display-Support-UI-scaled-logical-monitor-mode.patch) [[2]](https://salsa.debian.org/gnome-team/gnome-control-center/-/blob/ubuntu/master/debian/patches/ubuntu/display-Allow-fractional-scaling-to-be-enabled.patch)
 
-All credits belong to [Arch Linux](https://archlinux.org/packages/extra/x86_64/gnome-control-center/) and [Ubuntu](https://salsa.debian.org/gnome-team/gnome-control-center/-/tree/ubuntu/master/debian/patches).
+All credits belong to [Arch Linux](https://archlinux.org/packages/extra/x86_64/gnome-control-center/) and [Ubuntu](https://salsa.debian.org/gnome-team/gnome-control-center/-/tree/ubuntu/master/debian/patches), this package is available on [Manjaro](https://manjaro.org/) and the [AUR](https://aur.archlinux.org/packages/gnome-control-center-x11-scaling)
 
 ---
 
