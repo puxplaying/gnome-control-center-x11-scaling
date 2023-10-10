@@ -22,29 +22,51 @@ arch=(x86_64)
 depends=(
   accountsservice
   bolt
+  cairo
   colord-gtk4
   cups-pk-helper
+  dconf
+  fontconfig
   gcr
+  gdk-pixbuf2
+  glib2
   gnome-bluetooth-3.0
   gnome-color-manager
   gnome-desktop-4
   gnome-online-accounts
   gnome-settings-daemon
-  gnome-shell
+  gnutls
   gsettings-desktop-schemas
   gsound
+  gtk3
   gtk4
+  hicolor-icon-theme
+  krb5
   libadwaita
+  libcolord
+  libcups
+  libepoxy
   libgnomekbd
+  libgoa
   libgtop
   libgudev
   libibus
   libmalcontent
   libmm-glib
+  libnm
   libnma-gtk4
+  libpulse
   libpwquality
+  libsecret
+  libwacom
+  libx11
+  libxi
+  libxml2
+  pango
+  polkit
   smbclient
   sound-theme-freedesktop
+  tecla
   udisks2
   upower
 )
@@ -63,6 +85,12 @@ checkdepends=(
 optdepends=(
   'fwupd: device security panel'
   'gnome-remote-desktop: screen sharing'
+
+  # Cannot be a depend because when gnome-shell checkdepends on
+  # gnome-control-center depends on gnome-shell depends on libmutter-12.so, it
+  # makes building gnome-shell against libmutter-13.so impossible
+  'gnome-shell: multitasking panel'
+
   'gnome-user-share: WebDAV file sharing'
   'malcontent: application permission control'
   'networkmanager: network settings'
@@ -78,9 +106,9 @@ _commit=e4d0d5abf9cb716cb01cda17751b162d4bfea5b0  # tags/45.0^0
 source=(
   "git+https://gitlab.gnome.org/GNOME/gnome-control-center.git#commit=$_commit"
   "git+https://gitlab.gnome.org/GNOME/libgnome-volume-control.git"
-  "gnome-control-center-45.0-display-Allow-fractional-scaling-to-be-enabled.patch"
-  "gnome-control-center-45.0-display-Support-UI-scaled-logical-monitor-mode.patch"
-  "pixmaps-dir.diff"
+  "https://raw.githubusercontent.com/puxplaying/gnome-control-center-x11-scaling/master/gnome-control-center-45.0-display-Allow-fractional-scaling-to-be-enabled.patch"
+  "https://raw.githubusercontent.com/puxplaying/gnome-control-center-x11-scaling/master/gnome-control-center-45.0-display-Support-UI-scaled-logical-monitor-mode.patch"
+  "https://raw.githubusercontent.com/puxplaying/gnome-control-center-x11-scaling/8cafecb50c62f56dbe0a6cffb947b81aacbd4c41/pixmaps-dir.diff"
 )
 b2sums=('SKIP'
         'SKIP'
@@ -119,7 +147,8 @@ build() {
 }
 
 check() {
-  GTK_A11Y=none meson test -C build --print-errorlogs
+  GTK_A11Y=none dbus-run-session xvfb-run -s '-nolisten local +iglx -noreset' \
+    meson test -C build --print-errorlogs
 }
 
 package() {
