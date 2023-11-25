@@ -18,3 +18,9 @@ git clone https://github.com/puxplaying/gnome-control-center-x11-scaling.git
 cd gnome-control-center-x11-scaling
 makepkg -srci
 ```
+
+---
+
+**Note:**
+
+All of my projects which contain a PKGBUILD in the repository, can be automatically kept up to date with [Autogit](https://github.com/puxplaying/autogit).
