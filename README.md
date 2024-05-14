@@ -20,7 +20,3 @@ makepkg -srci
 ```
 
 ---
-
-**Note:**
-
-All of my projects which contain a PKGBUILD in the repository, can be automatically kept up to date with [Autogit](https://github.com/puxplaying/autogit).
