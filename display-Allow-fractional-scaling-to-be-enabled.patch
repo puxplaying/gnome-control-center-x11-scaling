@@ -561,7 +561,7 @@ index 3848481..9e6923b 100644
 +{
 +  gboolean active;
 +
-+  active = adw_switch_row_get_active (self->scale_fractional_row);
++  active = adw_switch_row_get_active (ADW_SWITCH_ROW(self->scale_fractional_row));
 +
 +  if (self->config)
 +    cc_display_config_set_fractional_scaling (self->config, active);
@@ -602,3 +602,4 @@ index 5cffb04..550d5fb 100644
        </object>
      </child>
    </template>
+

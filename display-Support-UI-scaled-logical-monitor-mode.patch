@@ -265,3 +265,4 @@ index df6333c..a9dbc37 100644
  
  const char*       cc_display_monitor_get_display_name       (CcDisplayMonitor   *monitor);
  gboolean          cc_display_monitor_is_active              (CcDisplayMonitor   *monitor);
+
