@@ -148,7 +148,7 @@ package_gnome-control-center-x11-scaling() {
   conflicts=($_pkgname)
   provides=($_pkgname)
 
-  depends+=(gnome-keybindings)
+  depends+=(gnome-keybindings-x11-scaling)
   optdepends=(
     'fwupd: device security panel'
     'gnome-remote-desktop: screen sharing'
