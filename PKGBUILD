@@ -15,7 +15,7 @@
 pkgname=gnome-control-center-x11-scaling
 _pkgname=gnome-control-center
 pkgver=46.1
-pkgrel=3
+pkgrel=4
 pkgdesc="GNOME's main interface to configure various aspects of the desktop with X11 fractional scaling patch"
 url="https://gitlab.gnome.org/GNOME/gnome-control-center"
 license=(GPL-2.0-or-later)
@@ -38,6 +38,7 @@ depends=(
   gnome-desktop-4
   gnome-online-accounts
   gnome-settings-daemon
+  gnome-shell
   gnutls
   graphene
   gsettings-desktop-schemas
@@ -87,26 +88,6 @@ checkdepends=(
   python-gobject
   xorg-server-xvfb
 )
-optdepends=(
-  'fwupd: device security panel'
-  'gnome-remote-desktop: screen sharing'
-
-  # Cannot be a depend because when gnome-shell checkdepends on
-  # gnome-control-center depends on gnome-shell depends on libmutter-12.so, it
-  # makes building gnome-shell against libmutter-13.so impossible
-  'gnome-shell: multitasking panel'
-
-  'gnome-user-share: WebDAV file sharing'
-  'malcontent: application permission control'
-  'networkmanager: network settings'
-  'openssh: remote login'
-  'power-profiles-daemon: power profiles'
-  'rygel: media sharing'
-  'system-config-printer: printer settings'
-)
-groups=(gnome)
-conflicts=($_pkgname)
-provides=($_pkgname)
 source=(
   "git+https://gitlab.gnome.org/GNOME/gnome-control-center.git?signed#tag=$pkgver"
   "git+https://gitlab.gnome.org/GNOME/libgnome-volume-control.git"
@@ -135,7 +116,7 @@ prepare() {
 
 build() {
   local meson_options=(
-    -D documentation=true
+    -D documentation=false
     -D location-services=enabled
     -D malcontent=true
   )
@@ -150,5 +131,22 @@ check() {
 }
 
 package() {
+  conflicts=($_pkgname)
+  provides=($_pkgname)
+
+  depends+=(gnome-keybindings)
+  optdepends=(
+    'fwupd: device security panel'
+    'gnome-remote-desktop: screen sharing'
+    'gnome-user-share: WebDAV file sharing'
+    'malcontent: application permission control'
+    'networkmanager: network settings'
+    'openssh: remote login'
+    'power-profiles-daemon: power profiles'
+    'rygel: media sharing'
+    'system-config-printer: printer settings'
+  )
+  groups=(gnome)
+
   meson install -C build --destdir "$pkgdir"
 }
