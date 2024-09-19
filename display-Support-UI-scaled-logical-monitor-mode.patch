@@ -123,10 +123,10 @@ index a55aa6a..3b755d7 100644
    snap_data.snapped = SNAP_DIR_NONE;
    snap_data.mon_x = x;
 diff --git a/panels/display/cc-display-config-dbus.c b/panels/display/cc-display-config-dbus.c
-index e14f745..27a9498 100644
+index bc27223..aea0c65 100644
 --- a/panels/display/cc-display-config-dbus.c
 +++ b/panels/display/cc-display-config-dbus.c
-@@ -1045,7 +1045,8 @@ cc_display_monitor_dbus_new (GVariant *variant,
+@@ -1072,7 +1072,8 @@ cc_display_monitor_dbus_new (GVariant *variant,
  typedef enum _CcDisplayLayoutMode
  {
    CC_DISPLAY_LAYOUT_MODE_LOGICAL = 1,
@@ -136,7 +136,7 @@ index e14f745..27a9498 100644
  } CcDisplayLayoutMode;
  
  typedef enum _CcDisplayConfigMethod
-@@ -1538,7 +1539,15 @@ cc_display_config_dbus_is_layout_logical (CcDisplayConfig *pself)
+@@ -1565,7 +1566,15 @@ cc_display_config_dbus_is_layout_logical (CcDisplayConfig *pself)
  {
    CcDisplayConfigDBus *self = CC_DISPLAY_CONFIG_DBUS (pself);
  
@@ -153,7 +153,7 @@ index e14f745..27a9498 100644
  }
  
  static gboolean
-@@ -1898,7 +1907,7 @@ cc_display_config_dbus_constructed (GObject *object)
+@@ -1925,7 +1934,7 @@ cc_display_config_dbus_constructed (GObject *object)
            guint32 u = 0;
            g_variant_get (v, "u", &u);
            if (u >= CC_DISPLAY_LAYOUT_MODE_LOGICAL &&
@@ -162,7 +162,7 @@ index e14f745..27a9498 100644
              self->layout_mode = u;
          }
      }
-@@ -2025,6 +2034,7 @@ cc_display_config_dbus_class_init (CcDisplayConfigDBusClass *klass)
+@@ -2052,6 +2061,7 @@ cc_display_config_dbus_class_init (CcDisplayConfigDBusClass *klass)
    parent_class->set_minimum_size = cc_display_config_dbus_set_minimum_size;
    parent_class->get_panel_orientation_managed =
      cc_display_config_dbus_get_panel_orientation_managed;
@@ -170,7 +170,7 @@ index e14f745..27a9498 100644
  
    pspec = g_param_spec_variant ("state",
                                  "GVariant",
-@@ -2085,6 +2095,26 @@ logical_monitor_is_rotated (CcDisplayLogicalMonitor *lm)
+@@ -2112,6 +2122,26 @@ logical_monitor_is_rotated (CcDisplayLogicalMonitor *lm)
      }
  }
  
@@ -197,7 +197,7 @@ index e14f745..27a9498 100644
  static int
  logical_monitor_width (CcDisplayLogicalMonitor *lm)
  {
-@@ -2103,6 +2133,11 @@ logical_monitor_width (CcDisplayLogicalMonitor *lm)
+@@ -2130,6 +2160,11 @@ logical_monitor_width (CcDisplayLogicalMonitor *lm)
  
    if (monitor->config->layout_mode == CC_DISPLAY_LAYOUT_MODE_LOGICAL)
      return round (width / lm->scale);
@@ -210,10 +210,10 @@ index e14f745..27a9498 100644
      return width;
  }
 diff --git a/panels/display/cc-display-config.c b/panels/display/cc-display-config.c
-index 852b54f..7cbf80a 100644
+index 2dd82ff..ce7d358 100644
 --- a/panels/display/cc-display-config.c
 +++ b/panels/display/cc-display-config.c
-@@ -705,3 +705,29 @@ cc_display_config_update_ui_numbers_names (CcDisplayConfig *self)
+@@ -723,3 +723,29 @@ cc_display_config_update_ui_numbers_names (CcDisplayConfig *self)
        cc_display_monitor_set_ui_info (monitor, current_ui_number, ui_name);
      }
  }
@@ -244,10 +244,10 @@ index 852b54f..7cbf80a 100644
 +  return max_scale;
 +}
 diff --git a/panels/display/cc-display-config.h b/panels/display/cc-display-config.h
-index df6333c..a9dbc37 100644
+index 320c6fe..4fdc2dd 100644
 --- a/panels/display/cc-display-config.h
 +++ b/panels/display/cc-display-config.h
-@@ -184,6 +184,7 @@ struct _CcDisplayConfigClass
+@@ -187,6 +187,7 @@ struct _CcDisplayConfigClass
                                      CcDisplayMode    *mode,
                                      double            scale);
    gboolean (* get_panel_orientation_managed) (CcDisplayConfig    *self);
@@ -255,7 +255,7 @@ index df6333c..a9dbc37 100644
  };
  
  
-@@ -213,6 +214,9 @@ gboolean          cc_display_config_is_scaled_mode_valid    (CcDisplayConfig
+@@ -216,6 +217,9 @@ gboolean          cc_display_config_is_scaled_mode_valid    (CcDisplayConfig
  gboolean          cc_display_config_get_panel_orientation_managed
                                                              (CcDisplayConfig    *self);
  void              cc_display_config_update_ui_numbers_names (CcDisplayConfig    *self);
@@ -265,4 +265,3 @@ index df6333c..a9dbc37 100644
  
  const char*       cc_display_monitor_get_display_name       (CcDisplayMonitor   *monitor);
  gboolean          cc_display_monitor_is_active              (CcDisplayMonitor   *monitor);
-
