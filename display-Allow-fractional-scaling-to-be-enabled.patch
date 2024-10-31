@@ -4,11 +4,11 @@ Subject: display: Allow fractional scaling to be enabled
 
 ---
  panels/display/cc-display-config-dbus.c |  60 ++++++++
- panels/display/cc-display-config.c      | 244 ++++++++++++++++++++++++++++++++
+ panels/display/cc-display-config.c      | 263 ++++++++++++++++++++++++++++++++
  panels/display/cc-display-config.h      |  11 ++
  panels/display/cc-display-settings.c    |  26 ++++
  panels/display/cc-display-settings.ui   |   7 +
- 5 files changed, 348 insertions(+)
+ 5 files changed, 367 insertions(+)
 
 diff --git a/panels/display/cc-display-config-dbus.c b/panels/display/cc-display-config-dbus.c
 index aea0c65..0ab118c 100644
@@ -136,10 +136,10 @@ index aea0c65..0ab118c 100644
    pspec = g_param_spec_variant ("state",
                                  "GVariant",
 diff --git a/panels/display/cc-display-config.c b/panels/display/cc-display-config.c
-index ce7d358..32a5f23 100644
+index ce7d358..e8dc6c4 100644
 --- a/panels/display/cc-display-config.c
 +++ b/panels/display/cc-display-config.c
-@@ -17,6 +17,11 @@
+@@ -17,6 +17,12 @@
   *
   */
  
@@ -147,11 +147,12 @@ index ce7d358..32a5f23 100644
 +#define MUTTER_EXPERIMENTAL_FEATURES_KEY  "experimental-features"
 +#define MUTTER_FEATURE_FRACTIONAL_SCALING_X11 "x11-randr-fractional-scaling"
 +#define MUTTER_FEATURE_FRACTIONAL_SCALING_WAYLAND "scale-monitor-framebuffer"
++#define MUTTER_FEATURE_FRACTIONAL_SCALING_XWAYLAND "xwayland-native-scaling"
 +
  #include <gio/gio.h>
  #include <math.h>
  #include "cc-display-config.h"
-@@ -486,6 +491,10 @@ cc_display_monitor_set_ui_info (CcDisplayMonitor *self, gint ui_number, gchar *u
+@@ -486,6 +492,10 @@ cc_display_monitor_set_ui_info (CcDisplayMonitor *self, gint ui_number, gchar *u
  
  struct _CcDisplayConfigPrivate {
    GList *ui_sorted_monitors;
@@ -162,7 +163,7 @@ index ce7d358..32a5f23 100644
  };
  typedef struct _CcDisplayConfigPrivate CcDisplayConfigPrivate;
  
-@@ -493,6 +502,68 @@ G_DEFINE_TYPE_WITH_PRIVATE (CcDisplayConfig,
+@@ -493,6 +503,86 @@ G_DEFINE_TYPE_WITH_PRIVATE (CcDisplayConfig,
                              cc_display_config,
                              G_TYPE_OBJECT)
  
@@ -177,7 +178,9 @@ index ce7d358..32a5f23 100644
 +  if (g_str_equal (renderer, "xrandr"))
 +    return MUTTER_FEATURE_FRACTIONAL_SCALING_X11;
 +
-+  if (g_str_equal (renderer, "native") || g_str_equal (renderer, "kms"))
++  if (g_str_equal (renderer, "native") ||
++      g_str_equal (renderer, "kms") ||
++      g_str_equal (renderer, "dummy"))
 +    return MUTTER_FEATURE_FRACTIONAL_SCALING_WAYLAND;
 +
 +  g_return_val_if_reached (NULL);
@@ -202,8 +205,12 @@ index ce7d358..32a5f23 100644
 +  CcDisplayConfigPrivate *priv = cc_display_config_get_instance_private (self);
 +  g_auto(GStrv) existing_features = NULL;
 +  gboolean have_fractional_scaling = FALSE;
++  gboolean have_xwayland_scaling = FALSE;
 +  g_autoptr(GVariantBuilder) builder = NULL;
 +  const char *key = get_fractional_scaling_key (self);
++  gboolean is_wayland;
++
++  is_wayland = g_strcmp0 (key, MUTTER_FEATURE_FRACTIONAL_SCALING_WAYLAND) == 0;
 +
 +  /* Add or remove the fractional scaling feature from mutter */
 +  existing_features = g_settings_get_strv (priv->mutter_settings,
@@ -219,10 +226,22 @@ index ce7d358..32a5f23 100644
 +            continue;
 +        }
 +
++      if (g_strcmp0 (existing_features[i], MUTTER_FEATURE_FRACTIONAL_SCALING_XWAYLAND) == 0)
++        {
++          if (enable && is_wayland)
++            have_xwayland_scaling = TRUE;
++          else
++            continue;
++        }
++
 +      g_variant_builder_add (builder, "s", existing_features[i]);
 +    }
++
 +  if (enable && !have_fractional_scaling && key)
 +    g_variant_builder_add (builder, "s", key);
++
++  if (enable && !have_xwayland_scaling && is_wayland)
++    g_variant_builder_add (builder, "s", MUTTER_FEATURE_FRACTIONAL_SCALING_XWAYLAND);
 +
 +  g_settings_set_value (priv->mutter_settings, MUTTER_EXPERIMENTAL_FEATURES_KEY,
 +                        g_variant_builder_end (builder));
@@ -231,7 +250,7 @@ index ce7d358..32a5f23 100644
  static void
  cc_display_config_init (CcDisplayConfig *self)
  {
-@@ -520,6 +591,10 @@ cc_display_config_constructed (GObject *object)
+@@ -520,6 +610,10 @@ cc_display_config_constructed (GObject *object)
      }
  
    cc_display_config_update_ui_numbers_names(self);
@@ -242,7 +261,7 @@ index ce7d358..32a5f23 100644
  }
  
  static void
-@@ -529,6 +604,7 @@ cc_display_config_finalize (GObject *object)
+@@ -529,6 +623,7 @@ cc_display_config_finalize (GObject *object)
    CcDisplayConfigPrivate *priv = cc_display_config_get_instance_private (self);
  
    g_list_free (priv->ui_sorted_monitors);
@@ -250,7 +269,7 @@ index ce7d358..32a5f23 100644
  
    G_OBJECT_CLASS (cc_display_config_parent_class)->finalize (object);
  }
-@@ -620,9 +696,16 @@ gboolean
+@@ -620,9 +715,16 @@ gboolean
  cc_display_config_equal (CcDisplayConfig *self,
                           CcDisplayConfig *other)
  {
@@ -267,7 +286,7 @@ index ce7d358..32a5f23 100644
    return CC_DISPLAY_CONFIG_GET_CLASS (self)->equal (self, other);
  }
  
-@@ -630,6 +713,8 @@ gboolean
+@@ -630,6 +732,8 @@ gboolean
  cc_display_config_apply (CcDisplayConfig *self,
                           GError **error)
  {
@@ -276,7 +295,7 @@ index ce7d358..32a5f23 100644
    if (!CC_IS_DISPLAY_CONFIG (self))
      {
        g_warning ("Cannot apply invalid configuration");
-@@ -640,6 +725,12 @@ cc_display_config_apply (CcDisplayConfig *self,
+@@ -640,6 +744,12 @@ cc_display_config_apply (CcDisplayConfig *self,
        return FALSE;
      }
  
@@ -289,7 +308,7 @@ index ce7d358..32a5f23 100644
    return CC_DISPLAY_CONFIG_GET_CLASS (self)->apply (self, error);
  }
  
-@@ -672,6 +763,14 @@ cc_display_config_is_layout_logical (CcDisplayConfig *self)
+@@ -672,6 +782,14 @@ cc_display_config_is_layout_logical (CcDisplayConfig *self)
    return CC_DISPLAY_CONFIG_GET_CLASS (self)->is_layout_logical (self);
  }
  
@@ -304,7 +323,7 @@ index ce7d358..32a5f23 100644
  void
  cc_display_config_set_minimum_size (CcDisplayConfig *self,
                                      int              width,
-@@ -681,13 +780,37 @@ cc_display_config_set_minimum_size (CcDisplayConfig *self,
+@@ -681,13 +799,37 @@ cc_display_config_set_minimum_size (CcDisplayConfig *self,
    CC_DISPLAY_CONFIG_GET_CLASS (self)->set_minimum_size (self, width, height);
  }
  
@@ -342,7 +361,7 @@ index ce7d358..32a5f23 100644
    return CC_DISPLAY_CONFIG_GET_CLASS (self)->is_scaled_mode_valid (self, mode, scale);
  }
  
-@@ -749,3 +872,124 @@ cc_display_config_get_maximum_scaling (CcDisplayConfig *self)
+@@ -749,3 +891,124 @@ cc_display_config_get_maximum_scaling (CcDisplayConfig *self)
  
    return max_scale;
  }
